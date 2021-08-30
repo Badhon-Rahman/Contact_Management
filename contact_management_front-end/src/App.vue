@@ -1,15 +1,25 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+Vue.prototype.$axios = axios
+  {{name}}
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    
+  },
+  data(){
+    return {
+      name: null
+
+    };
+  },
+  mounted () {
+    this.$axios
+      .get('http://127.0.0.1:8000/search/019')
+      .then(response => (this.name = response))
   }
 }
 </script>
