@@ -7,7 +7,6 @@
   <hr>
   <hr>
   <div>
-    <label for="search"> : </label>
     <input type="text" v-model="formValues.search">
     <button @click="getSearchData()">Search</button>
   </div>
@@ -88,7 +87,7 @@ export default {
   },
   methods:{
     getSearchData(){
-      axios.get('http://localhost/Assassment/Contact_Management_System_BackEnd/public/search/0177')
+      axios.get('http://127.0.0.1:8000/api/search/0177')
         .then((response) => {
           console.log(response);
         })
