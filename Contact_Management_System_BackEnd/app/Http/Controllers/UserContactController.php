@@ -119,16 +119,16 @@ class UserContactController extends Controller
      * @param  string/any  name, email, mobile, group
      * @return $userContactInfo
      */
-    public function SearchUser(Request $request)
+    public function SearchUser($search)
     {
         $searchResult=DB::table('user_contacts')
                 ->join('groups', 'user_contacts.group_id', '=', 'groups.id')
-                ->where('user_contacts.name', 'LIKE','%' . $request->search . '%')
-                ->orWhere('user_contacts.email_1', 'LIKE','%' . $request->search . '%')
-                ->orWhere('user_contacts.email_2', 'LIKE','%' . $request->search . '%')
-                ->orWhere('user_contacts.mobile_1', 'LIKE','%' . $request->search . '%')
-                ->orWhere('user_contacts.mobile_2', 'LIKE','%' . $request->search . '%')
-                ->orWhere('groups.name', 'LIKE','%' . $request->search . '%')
+                ->orWhere('user_contacts.name', 'LIKE', '%'.$search.'%')
+                ->orWhere('user_contacts.email_1', 'LIKE', '%'.$search.'%')
+                ->orWhere('user_contacts.email_2', 'LIKE', '%'.$search.'%')
+                ->orWhere('user_contacts.mobile_1', 'LIKE', '%'.$search.'%')
+                ->orWhere('user_contacts.mobile_2', 'LIKE', '%'.$search.'%')
+                ->orWhere('groups.name', 'LIKE', '%'.$search.'%')
                 ->select('user_contacts.*', 'groups.name as groupName')
                 ->get();
 

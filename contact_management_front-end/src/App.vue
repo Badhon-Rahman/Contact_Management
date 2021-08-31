@@ -1,18 +1,31 @@
 <template>
-    <hr>
-  <pre>
-    <div>{{JSON.stringify(formValues, null, 2)}}</div>
-  </pre>
-  
   <hr>
   <hr>
   <div>
-    <input type="text" v-model="formValues.search">
-    <button @click="getSearchData()">Search</button>
+    <input type="text" v-model="searchValue.searchParam">
+    <button @click="getSearchValues = getSearchData(searchValue.searchParam)">Search</button>
   </div>
   <hr>
   <hr>
+  <div v-if="getSearchValues?.length > 0">
+    <h2>Filtered Data:</h2> 
+    <div v-for="(contact, index) in getSearchValues" :key="contact">
+        <h6>Sl: {{index + 1}} </h6>
+        <h6>Name: {{contact.name}}</h6>
+        <h6>Email 1: {{contact.email_1}}</h6>
+        <h6>Email 2: {{contact.email_2}}</h6>
+        <h6>Mobile 1: {{contact.mobile_1}}</h6>
+        <h6>Mobile 2: {{contact.mobile_2}}</h6>
+        <h6>Group Name: {{contact.groupName}}</h6>
+        <h6>Is Favorite: {{contact.isFavorite}}</h6>
+        <br>
+    </div>
+  </div>
+  <h2 v-else-if="getSearchValues && getSearchValues?.length == 0">No data to show by search</h2>
+
   <form @submit="submitForm">
+    <hr>
+    <h2>Create Contact:</h2>
     <div>
       <label for="name">Name : </label>
       <input type="text" v-model="formValues.name">
@@ -53,7 +66,7 @@
     </div>
     <div>
       <input type="checkbox" id="is_active" v-model="formValues.is_active">
-      <label for="is_active">Is_Active?</label>
+      <label for="is_active">Is Favorite?</label>
     </div>
     <hr>
     <div><button>Submit</button></div>
@@ -63,15 +76,20 @@
 <script>
 import axios from 'axios';
 
+
 export default {
   name: 'App',
   components: {
     
   },
   data(){
+  
     return {
+      getSearchValues: [],
+      searchValue:{
+        searchParam: ''
+      },
       formValues:{
-        search: '',
         name: '',
         email_1:'',
         email_2:'',
@@ -86,10 +104,12 @@ export default {
     }
   },
   methods:{
-    getSearchData(){
-      axios.get('http://127.0.0.1:8000/api/search/0177')
+    getSearchData(searchParam){
+      axios.get('http://127.0.0.1:8000/api/search/'+searchParam)
         .then((response) => {
-          console.log(response);
+          this.getSearchValues = response.data;
+          console.log(response.data);
+          return this.getSearchValues;
         })
         .catch((error) => {
           console.log(error)
