@@ -27,7 +27,7 @@ Route::get('/api/update-group/{id}', [GroupController::class, 'update']);
 Route::get('/api/delete-group/{id}', [GroupController::class, 'destroy']);
 
 //user contact routes
-Route::get('/api/add-user-contact', [UserContactController::class, 'store']);
+Route::post('/api/add-user-contact', [UserContactController::class, 'store']);
 Route::get('/api/view-user-contact/{id}', [UserContactController::class, 'show']);
 Route::get('/api/update-user-contact/{id}', [UserContactController::class, 'update']);
 Route::get('/api/delete-user-contact/{id}', [UserContactController::class, 'destroy']);

@@ -22,65 +22,18 @@
     </div>
   </div>
   <h2 v-else-if="getSearchValues && getSearchValues?.length == 0">No data to show by search</h2>
-
-  <form @submit="submitForm">
-    <hr>
-    <h2>Create Contact:</h2>
-    <div>
-      <label for="name">Name : </label>
-      <input type="text" v-model="formValues.name">
-    </div>
-    <br>
-    <div>
-      <label for="email_1">Email_1 : </label>
-      <input type="text" v-model="formValues.email_1">
-    </div>
-    <br>
-    <div>
-      <label for="email_2">Email_2 : </label>
-      <input type="text" v-model="formValues.email_2">
-    </div>
-    <br>
-    <div>
-      <label for="mobile_1">Mobile_1 : </label>
-      <input type="text" v-model="formValues.mobile_1">
-    </div>
-    <br>
-    <div>
-      <label for="mobile_2">Mobile_2 : </label>
-      <input type="text" v-model="formValues.mobile_2">
-    </div>
-    <br>
-    <div>
-      <label for="password">Password : </label>
-      <input type="text" v-model="formValues.password">
-    </div>
-    <br>
-    <div>
-      <label for="group_id">Group:</label>
-      <select id="group_id" v-model="formValues.group_id">
-        <option value="">Select One</option>
-        <option value="GroupA">GroupA</option>
-        <option value="GroupB">GroupB</option>
-      </select>
-    </div>
-    <div>
-      <input type="checkbox" id="is_active" v-model="formValues.is_active">
-      <label for="is_active">Is Favorite?</label>
-    </div>
-    <hr>
-    <div><button>Submit</button></div>
-  </form>
+  <Contact />
 </template>
 
 <script>
+import Contact from './components/Contacts.vue';
 import axios from 'axios';
 
 
 export default {
   name: 'App',
   components: {
-    
+    Contact
   },
   data(){
   
@@ -88,19 +41,7 @@ export default {
       getSearchValues: [],
       searchValue:{
         searchParam: ''
-      },
-      formValues:{
-        name: '',
-        email_1:'',
-        email_2:'',
-        mobile_1:'',
-        mobile_2:'',
-        password:'',
-        group_id:'',
-        is_active:false
-
       }
-
     }
   },
   methods:{
@@ -114,10 +55,6 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-    },
-    submitForm(event){
-      event.preventDefault(),
-      console.log("Contact obj:", this.formValues);
     }
 
   }
