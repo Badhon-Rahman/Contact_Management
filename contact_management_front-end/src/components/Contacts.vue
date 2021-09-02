@@ -1,6 +1,5 @@
 <template>
   <form @submit.prevent="CreateContact">
-     <input type="text" :value="formValues.csrfToken" name="_token"/>
     <hr>
     <h2>Create Contact:</h2>
     <div>
@@ -56,12 +55,12 @@
 import axios from 'axios';
 
 export default {
-  
+  csrfToken: '',
   name: 'Contacts',
   data(){
     return {
       formValues:{
-        csrfToken: document.querySelector('meta[name="csrf-token"]').content,
+        token:null,
         name: '',
         email_1:'',
         email_2:'',
@@ -77,6 +76,8 @@ export default {
   },
    methods:{
     CreateContact(){
+      this.formValues.token = this.csrfToken;
+      console.log("tkn:" + this.formValues.token);
       console.log(this.formValues);
       axios.post('http://127.0.0.1:8000/api/add-user-contact',this.formValues).then((response) => {
           console.log(response.data);
@@ -85,15 +86,15 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-    },
-    // submitForm(event){
-    //   event.preventDefault(),
-    //   console.log("Contact obj:", this.formValues);
-    // }
-
+    }
   },
-  created() {
-        this.csrfToken = document.querySelector('meta[name="csrf-token"]').content
+  beforeMount() {
+        axios.get('http://127.0.0.1:8000/api/token').then((response) => {
+          this.csrfToken = response.data;
+        })
+        .catch((error) => {
+          console.log(error)
+        })
   },
 }
 </script>

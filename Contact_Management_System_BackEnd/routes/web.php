@@ -19,6 +19,8 @@ use App\Http\Controllers\GroupController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/api/token', [UserContactController::class, 'getCsrfToken']);
+
 
 //group routes
 Route::get('/api/add-group', [GroupController::class, 'store']);

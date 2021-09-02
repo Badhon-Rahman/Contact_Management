@@ -7,6 +7,7 @@ use App\Models\UserContacts;
 use App\Models\Groups;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Http\Middleware\VerifyCsrfToken;
 
 class UserContactController extends Controller
 {
@@ -20,6 +21,13 @@ class UserContactController extends Controller
         //
     }
 
+    //get csrf token
+    public function getCsrfToken(Request $request) {
+        $token = $request->session()->token();
+        $token = csrf_token();
+        return $token;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -29,7 +37,6 @@ class UserContactController extends Controller
     {
         //create new user contact
         $newUserContact=UserContacts::all();
-        //hashing password
         return $newUserContact;
     }
 
@@ -41,6 +48,7 @@ class UserContactController extends Controller
      */
     public function store(Request $request)
     {
+        return $request;
         //store new contact
         $validator = Validator::make($request->all(),[
             'name'=>'required',
@@ -49,6 +57,7 @@ class UserContactController extends Controller
         ]);
 
         $newUserContact=new UserContacts($request->only('name', 'email_1', 'email_2', 'mobile_1', 'mobile_2','password', 'group_id', 'isFavorite'));
+        //hashing password
         $newUserContact->password = Hash::make($newUserContact->password);
         $newUserContact->created_at = date('Y-m-d H:i:s'); 
         $newUserContact->save();
