@@ -60,7 +60,6 @@ export default {
   data(){
     return {
       formValues:{
-        token:null,
         name: '',
         email_1:'',
         email_2:'',
@@ -69,19 +68,22 @@ export default {
         password:'',
         group_id: null,
         is_active:false
-
       }
 
     }
   },
    methods:{
     CreateContact(){
-      this.formValues.token = this.csrfToken;
-      console.log("tkn:" + this.formValues.token);
-      console.log(this.formValues);
-      axios.post('http://127.0.0.1:8000/api/add-user-contact',this.formValues).then((response) => {
-          console.log(response.data);
-          return response.data;
+      //this.formValues._token = this.csrfToken;
+      // console.log("tkn:" + this.formValues.token);
+      // console.log(this.formValues);
+      // const headers = { 
+      //    //Authorization:this.csrfToken,
+      //    'X-Requested-With': XMLHttpRequest
+      // };
+     fetch('http://127.0.0.1:8000/api/add-user-contact',this.formValues).then((response) => {
+          //console.log(response.data);
+          console.log(response);
         })
         .catch((error) => {
           console.log(error)

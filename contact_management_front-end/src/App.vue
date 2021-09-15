@@ -7,7 +7,8 @@
   </div>
   <hr>
   <hr>
-  <div v-if="getSearchValues?.length > 0">
+  <h2 v-if="getSearchValues == null">No data to show by search</h2>
+  <div v-else-if="getSearchValues?.length > 0">
     <h2>Filtered Data:</h2> 
     <div v-for="(contact, index) in getSearchValues" :key="contact">
         <h6>Sl: {{index + 1}} </h6>

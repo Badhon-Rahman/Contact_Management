@@ -23,7 +23,7 @@ Route::get('/api/token', [UserContactController::class, 'getCsrfToken']);
 
 
 //group routes
-Route::get('/api/add-group', [GroupController::class, 'store']);
+Route::post('/api/add-group', [GroupController::class, 'store']);
 Route::get('/api/view-group/{id}', [GroupController::class, 'show']);
 Route::get('/api/update-group/{id}', [GroupController::class, 'update']);
 Route::get('/api/delete-group/{id}', [GroupController::class, 'destroy']);

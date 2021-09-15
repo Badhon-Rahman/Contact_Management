@@ -7,6 +7,7 @@ use App\Models\UserContacts;
 use App\Models\Groups;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Session;
 use App\Http\Middleware\VerifyCsrfToken;
 
 class UserContactController extends Controller
@@ -19,12 +20,12 @@ class UserContactController extends Controller
     public function index()
     {
         //
+       
     }
 
     //get csrf token
     public function getCsrfToken(Request $request) {
         $token = $request->session()->token();
-        $token = csrf_token();
         return $token;
     }
 
@@ -48,7 +49,6 @@ class UserContactController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
         //store new contact
         $validator = Validator::make($request->all(),[
             'name'=>'required',
@@ -130,7 +130,8 @@ class UserContactController extends Controller
      */
     public function SearchUser($search)
     {
-        $searchResult=DB::table('user_contacts')
+        if($search != ''){
+            $searchResult=DB::table('user_contacts')
                 ->join('groups', 'user_contacts.group_id', '=', 'groups.id')
                 ->orWhere('user_contacts.name', 'LIKE', '%'.$search.'%')
                 ->orWhere('user_contacts.email_1', 'LIKE', '%'.$search.'%')
@@ -140,6 +141,11 @@ class UserContactController extends Controller
                 ->orWhere('groups.name', 'LIKE', '%'.$search.'%')
                 ->select('user_contacts.*', 'groups.name as groupName')
                 ->get();
+        }
+        else{
+            $searchResult = null;
+        }
+        
 
         return $searchResult;                             
     }
